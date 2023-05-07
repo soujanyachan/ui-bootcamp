@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="todo.css">
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript">
+        if (document.location.hash === "" || document.location.hash === "#") {
+            document.location.hash = "#all";
+        }
+        window.onload = function(){
+            const hashLocation = document.location.hash.replace('#', '');
+            renderTodos(hashLocation);
+        };
+    </script>
+<!--active onclick does not move the correct style to all-->
+</head>
+<body>
+<h1 class="header">#todo</h1>
+<div class="tab-header">
+    <span class="tab-component">
+        <a href="#all" onclick="renderTodos('all')">all</a>
+    </span>
+    <span class="tab-component">
+        <a href="#active" onclick="renderTodos('active')"> active</a>
+    </span>
+    <span class="tab-component">
+        <a href="#completed" onclick="renderTodos('completed')"> completed</a>
+    </span>
+    <hr>
+</div>
+<div class="todo-content">
+    <div id="all">
+        <form name="save-todo" id="all-form" onsubmit="return submitForm('all')">
+            <label>
+                <input class="input-details" id="all-form-text-input" placeholder="add details">
+                <button class="input-button" type="submit">add</button>
+            </label>
+        </form>
+        <p id="all-content"></p>
+    </div>
+    <div id="active">
+        <form name="save-todo" id="active-form" onsubmit="return submitForm('active')">
+            <label>
+                <input class="input-details" id="active-form-text-input" placeholder="add details">
+                <button class="input-button" type="submit">add</button>
+            </label>
+        </form>
+        <p id="active-content"></p>
+    </div>
+    <div id="completed">
+        <p id="completed-content"></p>
+        <button class="delete-all-button" onclick="deleteAllCompletedTodos()">
+            <i class="ri-delete-bin-7-fill"></i>
+            delete all
+        </button>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+# W2A
+- Set up the todo app project with cra.
+    - Skim through different things in the app.
+    - Create your first component and render it.
+- Create different components with bare JSX.
+    - Add Header component.
+    - Add Tabs component.
+    - Add TodoForm component.
+    - Add Todos component. 
+      - Add Todo component
+- Adding styles and interactivity.
+    - Add styles to the app.
+    - Add new todo to the todos in the state.
+    - Add check/uncheck functionality by updating the state of the respective todo.
+- Add more functionality to the app with the following things
+    - Add tab-switching functionality which will filter todos based on their status
+    - Add a todo delete button in the Completed tab which will delete particular todo from the completed
+    - Add the delete all button in the Completed tab which will delete all todos which are completed
+- Store the todos in local storage to retrieve them later
+    - Add todos to the local storage
+    - Retrieve todos and show them when the user refreshes the page using react state

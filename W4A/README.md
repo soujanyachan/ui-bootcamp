@@ -1,0 +1,2 @@
+- apply context api to todos
+- apply redux to todos app

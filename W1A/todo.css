@@ -1,0 +1,88 @@
+a {
+    all: unset;
+}
+
+.header {
+    font-family: "Roboto",serif;
+    text-align: center;
+}
+
+.tab-header {
+    margin-left: 25%;
+    width: 50%;
+}
+
+.tab-component {
+    text-align: center;
+    width: 30%;
+    display: inline-block;
+    font-family: "Roboto",serif;
+}
+
+.todo-content {
+    text-align: center;
+}
+
+.todo-content div:target {
+    display: block;
+}
+
+.todo-content div:not(:target){
+    display: none;
+}
+
+.input-details {
+    width: 40%;
+    height: 30px;
+    border-radius: 10px;
+}
+
+.input-button {
+    background: #2F80ED;
+    border-radius: 12px;
+    height: 35px;
+    width: 75px;
+    color: white;
+}
+
+.delete-all-button {
+    background: #EB5757;
+    border-radius: 12px;
+    height: 35px;
+    width: 90px;
+    color: white;
+    margin-left: 40%;
+}
+
+#all-content {
+    text-align: left;
+    margin-left: 25%;
+}
+
+#active-content {
+    text-align: left;
+    margin-left: 25%;
+}
+
+#completed-content {
+    text-align: left;
+    margin-left: 25%;
+}
+li {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 35% 10px 10px;
+}
+
+li > input {
+    margin-right: 10px;
+}
+
+li > label {
+    font-family: "Roboto",serif;
+}
+
+li > span {
+    font-family: "Roboto",serif;
+}
