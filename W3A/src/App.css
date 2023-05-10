@@ -1,38 +1,58 @@
 .App {
-  text-align: center;
+  height: 96vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.content-container {
+  text-align: left;
+  width: 100%;
+  height: 100%;
+  /* We first create a flex layout context */
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  /* Then we define the flow direction
+     and if we allow the items to wrap
+   * Remember this is the same as:
+   * flex-direction: row;
+   * flex-wrap: wrap;
+   */
+  flex-flow: row;
+
+  /* Then we define how is distributed the remaining space */
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  align-items: stretch;
 }
 
-.App-link {
-  color: #61dafb;
+.topbar {
+  width: 100%;
+  background: #DB4C3E;
+  height: 4vh;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.sidebar {
+  background: #FAFAFA;
+  width: 30%;
+  height: 100%;
+  line-height: 150px;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: left;
+  resize: horizontal;
+}
+
+.content {
+  background: white;
+  /*padding: 5px;*/
+  width: 90%;
+  height: 100%;
+  line-height: 150px;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: left;
+}
+
+.bottom-bar {
+  background: blueviolet;
+  height: 4vh;
 }
