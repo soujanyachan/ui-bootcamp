@@ -38,7 +38,6 @@ function App() {
         localStorage.setItem('w2a_todo', JSON.stringify(todos));
         setTodos(todos);
         setShouldUpdateTodos(shouldUpdateTodos + 1)
-        console.log(this, event.target, "reset")
         event.target.reset({})
     }
 
