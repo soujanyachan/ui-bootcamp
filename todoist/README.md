@@ -16,4 +16,5 @@
 //     Make use of local storage to store any newly created todo’s
 //
 // Try to use react hooks concepts wherever possible. (i.e. useState, useEffect etc)
+![todoist ui sample](https://d2.alternativeto.net/dist/s/todoist_583684_full.png?format=jpg&width=1600&height=1600&mode=min&upscale=false)
 

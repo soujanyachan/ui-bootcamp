@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Todo from './Todo';
-import MultipleTodos from './MultipleTodos';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import {
@@ -14,14 +13,7 @@ import "./index.css";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <MultipleTodos/>,
-        errorElement: <p>error 404</p>,
-        children: [
-            {
-                path: "todos/:todoId",
-                element: <Todo />,
-            },
-        ]
+        element: <App />,
     },
     {
         path: "/about",

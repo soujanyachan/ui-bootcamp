@@ -5,6 +5,7 @@ import * as constants from "./utils/constants";
 import {useState} from "react";
 
 function Todo(props) {
+    // remove isTodoCompleted
     const [isTodoCompleted, setIsTodoCompleted] = useState(props.todo.completed)
     const setShouldUpdateTodos = props.setShouldUpdateTodos
     const updateTodoStatus = (completed) => {

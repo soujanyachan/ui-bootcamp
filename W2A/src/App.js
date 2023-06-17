@@ -9,6 +9,12 @@ import * as _ from "lodash";
 
 function App() {
     const [todos, setTodos] = useState([]);
+    const localStorageTodos = localStorage.getItem(constants.localStorageKey)
+    if (!localStorageTodos) {
+        localStorage.setItem('w2a_todo', JSON.stringify([]));
+    }
+    // TODO: remove shouldUpdateTodos, isTodoCompleted.
+    // TODO: not use local storage for all ations only in the beginning and end before leaving page.
     const [shouldUpdateTodos, setShouldUpdateTodos] = useState(0)
     const [activeTab, setActiveTab] = useState("all");
     console.log(todos, "todos")
