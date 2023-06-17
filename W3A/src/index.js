@@ -16,12 +16,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <MultipleTodos/>,
         errorElement: <p>error 404</p>,
-        children: [
-            {
-                path: "todos/:todoId",
-                element: <Todo />,
-            },
-        ]
+    },
+    {
+        path: "/todos/:id",
+        element: <Todo />,
     },
     {
         path: "/about",
