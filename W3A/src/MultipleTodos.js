@@ -3,6 +3,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import {getMultipleTodos} from "./requests";
 import {useEffect, useState} from "react";
 import Todo from './Todo';
+import './MultipleTodos.css'
 
 function MultipleTodos() {
     const params = useParams();
@@ -25,9 +26,12 @@ function MultipleTodos() {
     console.log(shouldDisplayTodos, "shouldDisplayTodos")
     return (
         <div>
-            <p>hello there from multiple todos</p>
-            {/*get list of todos and render the list, paginated*/}
-            {shouldDisplayTodos && multipleTodosView}
+            <h1 id="header">Todo List App</h1>
+            <div id="content">
+                <input type="text" placeholder="enter todo"/>
+                <button>send</button>
+                {shouldDisplayTodos && multipleTodosView}
+            </div>
         </div>);
 }
 

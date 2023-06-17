@@ -34,6 +34,7 @@ function Todo(props) {
                 console.log(e.target.checked)
                 setAndUpdateTodo({todo, completed: e.target.checked});
             }}/>
+        {window.location.pathname !== "/" && (<p>{todo.subtext || "hello subtext"}</p>)}
         </div>) : undefined;
 }
 
