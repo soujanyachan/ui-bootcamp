@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {deleteTodo, getTodo, updateTodo} from "./requests";
-import {useEffect} from 'react';
+import {useEffect, useContext} from 'react';
 import _ from 'lodash';
 import 'remixicon/fonts/remixicon.css'
 
 function Todo(props) {
+    const multipleTodos = useContext(ThemeContext)
     const params = useParams();
     const id = params.id || props.id;
     const [todo, setTodo] = useState({})
     const [shouldDisplayTodos, setShouldDisplayTodos] = useState(false)
-
     useEffect(() => {
         getTodo(id).then((response) => {
             setTodo(response.data);

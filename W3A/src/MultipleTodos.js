@@ -4,6 +4,7 @@ import {createTodo, deleteAllCompleted, getMultipleTodos} from "./requests";
 import {useEffect, useState} from "react";
 import Todo from './Todo';
 import './MultipleTodos.css'
+
 const ONLY_COMPLETED = 'only_completed_w3'
 const ONLY_TODO = 'only_todo_w3'
 
@@ -23,7 +24,14 @@ function MultipleTodos() {
     }, [lsOnlyCompleted, lsOnlyTodo]);
     let multipleTodosView = null;
     if (multipleTodos && multipleTodos.length) {
-        multipleTodosView = multipleTodos.map((x) => (<Todo id={x._id} key={x._id} setShouldDisplayTodos={setShouldDisplayTodos} multipleTodos={multipleTodos} setMultipleTodos={setMultipleTodos}/>))
+        multipleTodosView = multipleTodos.map((x) => (
+            <Todo
+                id={x._id}
+                key={x._id}
+                setShouldDisplayTodos={setShouldDisplayTodos}
+                multipleTodos={multipleTodos}
+                setMultipleTodos={setMultipleTodos}
+            />))
     }
     return (
         <div>
