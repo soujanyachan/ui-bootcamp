@@ -39,8 +39,18 @@ app.delete('/todos/:id', async (req, res) => {
     res = applyHeaders(res);
     res.status(200).send(resp);
 })
+
+app.delete('/todos', async (req, res) => {
+    const resp = await db.deleteAllCompletedTodos();
+    res = applyHeaders(res);
+    res.status(200).send(resp);
+})
+
 app.get('/todos', async (req, res) => {
-    const resp = await db.getAllTodos(req.body);
+    console.log(req.query.query, "query in get all")
+    const query = JSON.parse(atob(req.query.query));
+    console.log(query, "query in get all")
+    const resp = await db.getAllTodos(query);
     res = applyHeaders(res);
     res.status(200).send(resp);
 })

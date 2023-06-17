@@ -21,3 +21,8 @@ div#input {
 #todos-content {
   text-align: center;
 }
+
+#delete-all {
+  background: red;
+  border-radius: 7px;
+}

@@ -4,12 +4,17 @@ export const getTodo = async (id) => {
     return axios.get(`${baseUrl}/todos/${id}`);
 }
 
-export const getMultipleTodos = async () => {
-    return axios.get(`${baseUrl}/todos`);
+export const getMultipleTodos = async ({onlyCompleted, onlyTodo}) => {
+    let query = {};
+    if (onlyCompleted) {
+        query.completed = true
+    } else if (onlyTodo) {
+        query.completed = false
+    }
+    return axios.get(`${baseUrl}/todos?query=${btoa(JSON.stringify(query))}`);
 }
 
 export const updateTodo = async ({todo}) => {
-    console.log(todo, todo._id, "updateTodo")
     return axios.put(`${baseUrl}/todos/${todo._id}`, todo);
 }
 
@@ -19,4 +24,8 @@ export const createTodo = async ({todo}) => {
 
 export const deleteTodo = async ({todo}) => {
     return axios.delete(`${baseUrl}/todos/${todo._id}`);
+}
+
+export const deleteAllCompleted = async (query) => {
+    return axios.delete(`${baseUrl}/todos?query=${btoa(JSON.stringify(query))}`);
 }

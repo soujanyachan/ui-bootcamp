@@ -27,8 +27,8 @@ const updateTodo = (todoData) => {
     return Todo.findByIdAndUpdate(todoData._id, {...todoData, _id: undefined});
 }
 
-const getAllTodos = () => {
-    return Todo.find({});
+const getAllTodos = (query = {}) => {
+    return Todo.find(query);
 }
 
 const deleteTodo = (todoData) => {
@@ -39,10 +39,15 @@ const getTodo = (todoData) => {
     return Todo.findById(todoData._id);
 }
 
+const deleteAllCompletedTodos = () => {
+    return Todo.deleteMany({completed: true})
+}
+
 module.exports = {
     createTodo,
     updateTodo,
     getAllTodos,
     deleteTodo,
-    getTodo
+    getTodo,
+    deleteAllCompletedTodos
 }
