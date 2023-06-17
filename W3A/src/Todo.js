@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {useParams, useSearchParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {getTodo, updateTodo} from "./requests";
 import {useEffect} from 'react';
 function Todo(props) {
     const params = useParams();
     const id = params.id || props.id;
-    let [searchParams] = useSearchParams();
+    // let [searchParams] = useSearchParams();
     const [todo, setTodo] = useState({})
     const [shouldDisplayTodos, setShouldDisplayTodos] = useState(false)
 
@@ -25,7 +25,6 @@ function Todo(props) {
             })
             .catch(e => console.log(e))
     }
-    console.log(params, searchParams, "params");
     const todoStyle = todo.completed ? {"color":"red", "textDecoration":"line-through"} : {};
     return shouldDisplayTodos ? (<div>
         <span>{todo.id} </span>

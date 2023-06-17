@@ -11,3 +11,7 @@ export const getMultipleTodos = async () => {
 export const updateTodo = async ({todo}) => {
     return axios.put(`https://jsonplaceholder.typicode.com/todos/${todo.id}`, todo);
 }
+
+export const createTodo = async ({todo}) => {
+    return axios.post(`https://jsonplaceholder.typicode.com/todos`, todo);
+}
