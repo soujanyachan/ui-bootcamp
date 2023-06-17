@@ -6,7 +6,6 @@ import Todo from './Todo';
 import './MultipleTodos.css'
 
 function MultipleTodos() {
-    // const params = useParams();
     const [shouldDisplayTodos, setShouldDisplayTodos] = useState(false)
     const [multipleTodos, setMultipleTodos] = useState([])
     const [newTodo, setNewTodo] = useState(undefined);
@@ -17,10 +16,9 @@ function MultipleTodos() {
             setShouldDisplayTodos(true);
         });
     }, []);
-    // let [searchParams] = useSearchParams();
     let multipleTodosView = null;
     if (multipleTodos && multipleTodos.length) {
-        multipleTodosView = multipleTodos.map((x) => (<Todo id={x.id} key={x.id}/>))
+        multipleTodosView = multipleTodos.map((x) => (<Todo id={x._id} key={x._id} setShouldDisplayTodos={setShouldDisplayTodos} multipleTodos={multipleTodos} setMultipleTodos={setMultipleTodos}/>))
     }
     console.log(shouldDisplayTodos, "shouldDisplayTodos")
     return (
@@ -28,10 +26,11 @@ function MultipleTodos() {
             <h1 id="header">Todo List App</h1>
             <div id="input">
                 <input onChange={(e) => {
+                    console.log(e.target.value, "onchange")
                     setNewTodo({
                         "created": new Date(),
-                        "text": "test todo 10",
-                        "subtext": "Lorem ipsum do",
+                        "text": e.target.value,
+                        "subtext": e.target.value,
                         "completed": false
                     })
                 }} type="text" placeholder="enter todo"/>

@@ -24,7 +24,7 @@ const createTodo = (todoData) => {
 }
 
 const updateTodo = (todoData) => {
-    return Todo.findByIdAndUpdate(todoData.id, {...todoData, id: undefined});
+    return Todo.findByIdAndUpdate(todoData._id, {...todoData, _id: undefined});
 }
 
 const getAllTodos = () => {
@@ -32,11 +32,11 @@ const getAllTodos = () => {
 }
 
 const deleteTodo = (todoData) => {
-    return Todo.findByIdAndRemove(todoData.id);
+    return Todo.findByIdAndRemove(todoData._id);
 }
 
 const getTodo = (todoData) => {
-    return Todo.findById(todoData.id);
+    return Todo.findById(todoData._id);
 }
 
 module.exports = {
