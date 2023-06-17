@@ -29,12 +29,12 @@ function MultipleTodos() {
             <div id="input">
                 <input onChange={(e) => {
                     setNewTodo({
-                        "created" : new Date(),
-                        "text" : "test todo 10",
-                        "subtext" : "Lorem ipsum do",
-                        "completed" : false
+                        "created": new Date(),
+                        "text": "test todo 10",
+                        "subtext": "Lorem ipsum do",
+                        "completed": false
                     })
-                }} type="text" placeholder="enter todo" />
+                }} type="text" placeholder="enter todo"/>
                 <button onClick={() => {
                     console.log(newTodo, "send");
                     createTodo({todo: newTodo}).then((response) => {
@@ -43,9 +43,26 @@ function MultipleTodos() {
                         setMultipleTodos([...multipleTodos, createdTodo]);
                         setNewTodo({});
                     })
-                }}>send</button>
+                }}>send
+                </button>
             </div>
-            {shouldDisplayTodos && multipleTodosView}
+            <div id="options">
+                <div>
+                    <div>show only completed</div>
+                    <input type="checkbox"/>
+                </div>
+                <div>
+                    <div>show only todo</div>
+                    <input type="checkbox"/>
+                </div>
+                <div>
+                    <div>show all</div>
+                    <input type="checkbox"/>
+                </div>
+            </div>
+            <div id="todos-content">
+                {shouldDisplayTodos && multipleTodosView}
+            </div>
         </div>);
 }
 

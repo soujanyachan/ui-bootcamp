@@ -3,6 +3,21 @@ h1 {
   font-weight: bolder;
 }
 
-.content {
+div#input {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#options {
+  text-align: center;
+  background: lightblue;
+  border-width: 5px;
+  border-style: solid;
+  width: 50%;
+  margin-left: 25%;
+  border-color: #2F80ED;
+}
+
+#todos-content {
   text-align: center;
 }
