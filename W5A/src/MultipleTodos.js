@@ -19,8 +19,7 @@ function MultipleTodos() {
     }, [])
     const lsOnlyCompleted = useSelector((state) => state.todoReducer.lsOnlyCompleted)
     const lsOnlyTodo = useSelector((state) => state.todoReducer.lsOnlyTodo)
-    const selectedTodo = useSelector((state) => state.todoReducer.selectedTodo)
-    console.log("{lsOnlyCompleted, lsOnlyTodo, selectedTodo}", {lsOnlyCompleted, lsOnlyTodo, selectedTodo})
+    console.log("{lsOnlyCompleted, lsOnlyTodo, selectedTodo}", {lsOnlyCompleted, lsOnlyTodo})
 
     useEffect(() => {
         getMultipleTodosAPI({lsOnlyCompleted, lsOnlyTodo}).then((response) => {
@@ -32,7 +31,7 @@ function MultipleTodos() {
     })
     let multipleTodosView = null;
     console.log("multipleTodos from Multipletodos.js", multipleTodos);
-    if (multipleTodos && multipleTodos.length) {
+    if (multipleTodos && multipleTodos.length && window.location.pathname === "/") {
         multipleTodosView = multipleTodos.map((x) => {
             return (
                 <Todo key={x._id} id={x._id}/>
@@ -42,7 +41,7 @@ function MultipleTodos() {
     return (
         <div>
             <h1 id="header">Todo List App</h1>
-            {window.location.pathname === "/" ? (<div>
+            {(<div>
                 <form id="input"
                       onSubmit={(event) => {
                           event.preventDefault();
@@ -86,7 +85,7 @@ function MultipleTodos() {
                 <div id="todos-content">
                     {multipleTodosView}
                 </div>
-            </div>) : (<Todo key={selectedTodo._id} id={selectedTodo._id}/>)}
+            </div>)}
         </div>
     );
 }

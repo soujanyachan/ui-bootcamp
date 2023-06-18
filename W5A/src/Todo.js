@@ -14,7 +14,6 @@ function Todo(props) {
     const params = useParams();
     const id = params.id || props.id;
     let todo = _.find(multipleTodos, (x) => x._id === id)
-
     if (!todo) {
         getTodoAPI(id).then((response) => {
             dispatch(selectedTodo(response.data))
