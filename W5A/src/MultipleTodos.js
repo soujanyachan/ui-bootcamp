@@ -27,12 +27,11 @@ function MultipleTodos() {
             dispatch(getAllTodos(response.data))
         });
     }, [lsOnlyCompleted, lsOnlyTodo]);
-    const multipleTodos = useSelector((state) => {
-        return state.todoReducer.multipleTodos
+    let multipleTodos = useSelector((state) => {
+        return state.todoReducer.filteredTodos
     })
-
     let multipleTodosView = null;
-    console.log("multipleTodos", multipleTodos);
+    console.log("multipleTodos from Multipletodos.js", multipleTodos);
     if (multipleTodos && multipleTodos.length) {
         multipleTodosView = multipleTodos.map((x) => {
             return (
@@ -53,6 +52,7 @@ function MultipleTodos() {
                           createTodoAPI({todo: newTodo}).then((response) => {
                               dispatch(createNewTodo(newTodo));
                           })
+                          event.target.reset();
                       }}
                 >
                     <input type="text" placeholder="enter todo w5"/>
@@ -76,8 +76,7 @@ function MultipleTodos() {
                     <div>
                         <button id="delete-all" onClick={() => {
                             deleteAllCompletedAPI({lsOnlyCompleted, lsOnlyTodo}).then(() => {
-                                deleteAllCompleted()
-                                console.log(multipleTodos, "after dlete all")
+                                dispatch(deleteAllCompleted())
                             });
                         }}>
                             delete all completed

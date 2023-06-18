@@ -4,6 +4,7 @@ export const todoSlice = createSlice({
     name: 'newTodo',
     initialState: {
         multipleTodos: [],
+        filteredTodos: [],
         lsOnlyCompleted: false,
         lsOnlyTodo: false,
         selectedTodo: {}
@@ -12,6 +13,13 @@ export const todoSlice = createSlice({
         getAllTodos: (state, action) => {
             console.log(action.payload, "getalltodos")
             state.multipleTodos = action.payload
+            if (state.lsOnlyTodo && !state.lsOnlyCompleted) {
+                state.filteredTodos = state.multipleTodos.filter((todo) => !todo.completed);
+            } else if (!state.lsOnlyTodo && state.lsOnlyCompleted) {
+                state.filteredTodos = state.multipleTodos.filter((todo) => todo.completed);
+            } else {
+                state.filteredTodos = state.multipleTodos
+            }
         },
         createNewTodo: (state, action) => {
                 console.log("CREATE_NEW_TODO todoslice", action)
@@ -23,20 +31,47 @@ export const todoSlice = createSlice({
                 };
                 console.log("createNewTodo", JSON.stringify(todo), state);
                 state.multipleTodos.push(todo);
+                if (state.lsOnlyTodo) {
+                    state.filteredTodos.push(todo)
+                }
+                if (state.lsOnlyTodo && !state.lsOnlyCompleted) {
+                    state.filteredTodos = state.multipleTodos.filter((todo) => !todo.completed);
+                } else if (!state.lsOnlyTodo && state.lsOnlyCompleted) {
+                    state.filteredTodos = state.multipleTodos.filter((todo) => todo.completed);
+                } else {
+                    state.filteredTodos = state.multipleTodos
+                }
         },
         updateTodoToCompleted: (state, action) => {
             const index = state.multipleTodos.findIndex((todo) => todo._id === action.payload.id);
             state.multipleTodos[index].completed = action.payload.completed;
+            if (state.lsOnlyTodo && !state.lsOnlyCompleted) {
+                state.filteredTodos = state.multipleTodos.filter((todo) => !todo.completed);
+            } else if (!state.lsOnlyTodo && state.lsOnlyCompleted) {
+                state.filteredTodos = state.multipleTodos.filter((todo) => todo.completed);
+            } else {
+                state.filteredTodos = state.multipleTodos
+            }
         },
         deleteTodo: (state, action) => {
-            return state.multipleTodos.filter((todo) => todo._id !== action.payload.id);
+            console.log(action, state, "detelettodo")
+            return state.multipleTodos.filter((todo) => todo._id !== action.payload._id);
         },
         deleteAllCompleted: (state, action) => {
-            return state.multipleTodos.filter((todo) => !todo.completed);
+            state.multipleTodos = state.multipleTodos.filter((todo) => !todo.completed);
+            console.log(state.multipleTodos, "deleteAllCompleted")
+            state.filteredTodos = state.multipleTodos
         },
         setLs: (state, action) => {
             state.lsOnlyTodo = action.payload.lsOnlyTodo
             state.lsOnlyCompleted = action.payload.lsOnlyCompleted
+            if (action.payload.lsOnlyTodo && !action.payload.lsOnlyCompleted) {
+                state.filteredTodos = state.multipleTodos.filter((todo) => !todo.completed);
+            } else if (!action.payload.lsOnlyTodo && action.payload.lsOnlyCompleted) {
+                state.filteredTodos = state.multipleTodos.filter((todo) => todo.completed);
+            } else {
+                state.filteredTodos = state.multipleTodos
+            }
         },
         selectedTodo: (state, action) => {
             state.selectedTodo = action.payload

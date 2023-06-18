@@ -14,7 +14,6 @@ function Todo(props) {
     const params = useParams();
     const id = params.id || props.id;
     let todo = _.find(multipleTodos, (x) => x._id === id)
-    console.log(todo, id, "todo in TODO")
 
     if (!todo) {
         getTodoAPI(id).then((response) => {
@@ -46,7 +45,7 @@ function Todo(props) {
         <i className="ri-delete-bin-7-fill" onClick={() => {
             deleteTodoAPI({todo})
                 .then(r => {
-                    const multipleTodosData = _.filter(multipleTodos, (x) => {return (x._id !== todo._id)})
+                    const multipleTodosData = _.filter(multipleTodos, (x) => (x._id !== todo._id))
                     dispatch(getAllTodos(multipleTodosData))
                 })
                 .catch(e => console.log(e))
