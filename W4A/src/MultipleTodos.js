@@ -3,7 +3,12 @@ import {createTodo, deleteAllCompleted, getMultipleTodos} from "./requests";
 import {useEffect, useState} from "react";
 import Todo from './Todo';
 import './MultipleTodos.css'
-import {MultipleTodosContext, SetMultipleTodosContext, SetShouldDisplayTodosContext} from './Context'
+import {
+    MultipleTodosContext,
+    SelectedTodoIdContext,
+    SetMultipleTodosContext,
+    SetShouldDisplayTodosContext
+} from './Context'
 
 const ONLY_COMPLETED = 'only_completed_w3'
 const ONLY_TODO = 'only_todo_w3'
@@ -25,7 +30,11 @@ function MultipleTodos() {
     }, [lsOnlyCompleted, lsOnlyTodo]);
     let multipleTodosView = null;
     if (multipleTodos && multipleTodos.length) {
-        multipleTodosView = multipleTodos.map((x) => (<Todo id={x._id} key={x._id}/>))
+        multipleTodosView = multipleTodos.map((x) => (
+            <SelectedTodoIdContext.Provider value={x._id} key={x._id}>
+                <Todo key={x._id}/>
+            </SelectedTodoIdContext.Provider>
+        ))
     }
     return (
         <MultipleTodosContext.Provider value={multipleTodos}>

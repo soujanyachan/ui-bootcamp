@@ -4,13 +4,13 @@ import {deleteTodo, getTodo, updateTodo} from "./requests";
 import {useEffect, useContext} from 'react';
 import _ from 'lodash';
 import 'remixicon/fonts/remixicon.css'
-import {MultipleTodosContext, SetMultipleTodosContext} from './Context'
+import {MultipleTodosContext, SetMultipleTodosContext, SelectedTodoIdContext} from './Context'
 
-function Todo(props) {
+function Todo() {
     const multipleTodos = useContext(MultipleTodosContext)
     const setMultipleTodos = useContext(SetMultipleTodosContext)
     const params = useParams();
-    const id = params.id || props.id;
+    const id = params.id || useContext(SelectedTodoIdContext);
     const [todo, setTodo] = useState({})
     const [shouldDisplayTodos, setShouldDisplayTodos] = useState(false)
     useEffect(() => {
