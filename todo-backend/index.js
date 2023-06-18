@@ -48,7 +48,10 @@ app.delete('/todos', async (req, res) => {
 
 app.get('/todos', async (req, res) => {
     console.log(req.query.query, "query in get all")
-    const query = JSON.parse(atob(req.query.query));
+    let query = {};
+    try {
+        query = JSON.parse(atob(req.query.query));
+    } catch (e) {}
     console.log(query, "query in get all")
     const resp = await db.getAllTodos(query);
     res = applyHeaders(res);

@@ -1,102 +1,94 @@
 import React from 'react';
-import {createTodo, deleteAllCompleted, getMultipleTodos} from "./requests";
-import {useEffect, useState} from "react";
+import {createTodoAPI, deleteAllCompletedAPI, getMultipleTodosAPI} from "./requests";
+import {useEffect} from "react";
 import Todo from './Todo';
 import './MultipleTodos.css'
-import {
-    MultipleTodosContext,
-    SelectedTodoIdContext,
-    SetMultipleTodosContext,
-    SetShouldDisplayTodosContext
-} from './Context'
+import {useDispatch, useSelector} from 'react-redux'
+import {createNewTodo, getAllTodos, deleteAllCompleted, setLs} from "./redux/TodoSlice";
 
 const ONLY_COMPLETED = 'only_completed_w3'
 const ONLY_TODO = 'only_todo_w3'
 
 function MultipleTodos() {
-    const [shouldDisplayTodos, setShouldDisplayTodos] = useState(false)
-    const [multipleTodos, setMultipleTodos] = useState([])
-    const [newTodo, setNewTodo] = useState(undefined);
-    const onlyCompleted = JSON.parse(localStorage.getItem(ONLY_COMPLETED));
-    const onlyTodo = JSON.parse(localStorage.getItem(ONLY_TODO));
-    const [lsOnlyCompleted, setLsOnlyCompleted] = useState(onlyCompleted)
-    const [lsOnlyTodo, setLsOnlyTodo] = useState(onlyTodo)
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        getMultipleTodos({onlyCompleted, onlyTodo}).then((response) => {
-            setMultipleTodos(response.data);
-            setShouldDisplayTodos(true);
+        const lsOnlyCompleted = JSON.parse(localStorage.getItem(ONLY_COMPLETED));
+        const lsOnlyTodo = JSON.parse(localStorage.getItem(ONLY_TODO));
+        dispatch(setLs({lsOnlyCompleted, lsOnlyTodo}))
+    }, [])
+    const lsOnlyCompleted = useSelector((state) => state.todoReducer.lsOnlyCompleted)
+    const lsOnlyTodo = useSelector((state) => state.todoReducer.lsOnlyTodo)
+    const selectedTodo = useSelector((state) => state.todoReducer.selectedTodo)
+    console.log("{lsOnlyCompleted, lsOnlyTodo, selectedTodo}", {lsOnlyCompleted, lsOnlyTodo, selectedTodo})
+
+    useEffect(() => {
+        getMultipleTodosAPI({lsOnlyCompleted, lsOnlyTodo}).then((response) => {
+            dispatch(getAllTodos(response.data))
         });
     }, [lsOnlyCompleted, lsOnlyTodo]);
+    const multipleTodos = useSelector((state) => {
+        return state.todoReducer.multipleTodos
+    })
+
     let multipleTodosView = null;
+    console.log("multipleTodos", multipleTodos);
     if (multipleTodos && multipleTodos.length) {
-        multipleTodosView = multipleTodos.map((x) => (
-            <SelectedTodoIdContext.Provider value={x._id} key={x._id}>
-                <Todo key={x._id}/>
-            </SelectedTodoIdContext.Provider>
-        ))
+        multipleTodosView = multipleTodos.map((x) => {
+            return (
+                <Todo key={x._id} id={x._id}/>
+            )
+        })
     }
     return (
-        <MultipleTodosContext.Provider value={multipleTodos}>
-            <SetMultipleTodosContext.Provider value={setMultipleTodos}>
-                <SetShouldDisplayTodosContext.Provider value={setShouldDisplayTodos}>
+        <div>
+            <h1 id="header">Todo List App</h1>
+            {window.location.pathname === "/" ? (<div>
+                <form id="input"
+                      onSubmit={(event) => {
+                          event.preventDefault();
+                          console.log(event.target[0].value)
+                          const text = event.target[0].value
+                          const newTodo = {text, subtext: text, created: new Date().toString()}
+                          createTodoAPI({todo: newTodo}).then((response) => {
+                              dispatch(createNewTodo(newTodo));
+                          })
+                      }}
+                >
+                    <input type="text" placeholder="enter todo w5"/>
+                    <button>send</button>
+                </form>
+                <div id="options">
                     <div>
-                    <h1 id="header">Todo List App</h1>
-                    <div id="input">
-                        <input onChange={(e) => {
-                            setNewTodo({
-                                "created": new Date(),
-                                "text": e.target.value,
-                                "subtext": e.target.value,
-                                "completed": false
-                            })
-                        }} type="text" placeholder="enter todo w4"/>
-                        <button onClick={() => {
-                            createTodo({todo: newTodo}).then((response) => {
-                                const createdTodo = response.data;
-                                setMultipleTodos([...multipleTodos, createdTodo]);
-                                setNewTodo({});
-                            })
-                        }}>send
+                        <div>show only completed</div>
+                        <input type="checkbox" checked={!!lsOnlyCompleted} onChange={(e) => {
+                            localStorage.setItem(ONLY_COMPLETED, e.target.checked.toString())
+                            dispatch(setLs({lsOnlyTodo, lsOnlyCompleted: e.target.checked}))
+                        }}/>
+                    </div>
+                    <div>
+                        <div>show only todo</div>
+                        <input type="checkbox" checked={!!lsOnlyTodo} onChange={(e) => {
+                            localStorage.setItem(ONLY_TODO, e.target.checked.toString())
+                            dispatch(setLs({lsOnlyTodo: e.target.checked, lsOnlyCompleted}))
+                        }}/>
+                    </div>
+                    <div>
+                        <button id="delete-all" onClick={() => {
+                            deleteAllCompletedAPI({lsOnlyCompleted, lsOnlyTodo}).then(() => {
+                                deleteAllCompleted()
+                                console.log(multipleTodos, "after dlete all")
+                            });
+                        }}>
+                            delete all completed
                         </button>
                     </div>
-                    <div id="options">
-                        <div>
-                            <div>show only completed</div>
-                            <input type="checkbox" checked={!!lsOnlyCompleted} onChange={(e) => {
-                                localStorage.setItem(ONLY_COMPLETED, e.target.checked.toString())
-                                setLsOnlyCompleted(e.target.checked)
-                                setShouldDisplayTodos(true);
-                            }}/>
-                        </div>
-                        <div>
-                            <div>show only todo</div>
-                            <input type="checkbox" checked={!!lsOnlyTodo} onChange={(e) => {
-                                localStorage.setItem(ONLY_TODO, e.target.checked.toString())
-                                setLsOnlyTodo(e.target.checked)
-                                setShouldDisplayTodos(true);
-                            }}/>
-                        </div>
-                        <div>
-                            <button id="delete-all" onClick={() => {
-                                deleteAllCompleted({onlyCompleted, onlyTodo}).then(() => {
-                                    const newTodos = multipleTodos.filter((x) => !x.completed);
-                                    console.log(newTodos, "after dlete all")
-                                    setMultipleTodos(newTodos);
-                                    setShouldDisplayTodos(true);
-                                });
-                            }}>
-                                delete all completed
-                            </button>
-                        </div>
-                    </div>
-                    <div id="todos-content">
-                        {shouldDisplayTodos && multipleTodosView}
-                    </div>
                 </div>
-                </SetShouldDisplayTodosContext.Provider>
-            </SetMultipleTodosContext.Provider>
-        </MultipleTodosContext.Provider>
+                <div id="todos-content">
+                    {multipleTodosView}
+                </div>
+            </div>) : (<Todo key={selectedTodo._id} id={selectedTodo._id}/>)}
+        </div>
     );
 }
 

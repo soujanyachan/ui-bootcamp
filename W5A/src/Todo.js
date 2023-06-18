@@ -1,54 +1,58 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useParams} from 'react-router-dom';
-import {deleteTodo, getTodo, updateTodo} from "./requests";
-import {useEffect, useContext} from 'react';
+import {deleteTodoAPI, getTodoAPI, updateTodoAPI} from "./requests";
+import {getAllTodos, updateTodoToCompleted, selectedTodo} from './redux/TodoSlice'
 import _ from 'lodash';
 import 'remixicon/fonts/remixicon.css'
-import {MultipleTodosContext, SetMultipleTodosContext, SelectedTodoIdContext} from './Context'
+import {useSelector, useDispatch} from "react-redux";
 
-function Todo() {
-    const multipleTodos = useContext(MultipleTodosContext)
-    const setMultipleTodos = useContext(SetMultipleTodosContext)
+function Todo(props) {
+    const dispatch = useDispatch();
+    const multipleTodos = useSelector((state) => {
+        return state.todoReducer.multipleTodos
+    })
     const params = useParams();
-    const id = params.id || useContext(SelectedTodoIdContext);
-    const [todo, setTodo] = useState({})
-    const [shouldDisplayTodos, setShouldDisplayTodos] = useState(false)
-    useEffect(() => {
-        getTodo(id).then((response) => {
-            setTodo(response.data);
-            setShouldDisplayTodos(true);
-        });
-    }, []);
+    const id = params.id || props.id;
+    let todo = _.find(multipleTodos, (x) => x._id === id)
+    console.log(todo, id, "todo in TODO")
+
+    if (!todo) {
+        getTodoAPI(id).then((response) => {
+            dispatch(selectedTodo(response.data))
+        })
+        todo = useSelector((state) => {
+            return state.todoReducer.selectedTodo
+        })
+    }
 
     const setAndUpdateTodo = ({todo, completed}) => {
-        updateTodo({todo: {...todo, completed}})
+        updateTodoAPI({todo: {...todo, completed}})
             .then(r => {
-                setTodo({...todo, completed});
+                dispatch(updateTodoToCompleted({id: todo._id, completed}))
                 const index = _.findIndex(multipleTodos, (x) => (x._id === todo._id))
                 console.log(multipleTodos, index, todo, "index")
-                multipleTodos[index].completed = completed;
-                setMultipleTodos(multipleTodos)
-                setShouldDisplayTodos(true);
+                const newTodos = _.cloneDeep(multipleTodos);
+                newTodos[index].completed = completed;
+                dispatch(getAllTodos(newTodos))
             })
             .catch(e => console.log(e))
     }
     const todoStyle = todo.completed ? {"color":"red", "textDecoration":"line-through"} : {};
-    return shouldDisplayTodos ? (<div>
+    return <div>
             <a href={`/todos/${todo._id}`} style={todoStyle}>{todo.title || todo.text}</a>
             <input type="checkbox" checked={todo.completed} onChange={(e) => {
                 setAndUpdateTodo({todo, completed: e.target.checked});
             }}/>
         <i className="ri-delete-bin-7-fill" onClick={() => {
-            deleteTodo({todo})
+            deleteTodoAPI({todo})
                 .then(r => {
                     const multipleTodosData = _.filter(multipleTodos, (x) => {return (x._id !== todo._id)})
-                    setMultipleTodos(multipleTodosData)
-                    setShouldDisplayTodos(true);
+                    dispatch(getAllTodos(multipleTodosData))
                 })
                 .catch(e => console.log(e))
         }}></i>
             {window.location.pathname !== "/" && (<p>{todo.subtext || "hello subtext"}</p>)}
-        </div>) : undefined;
+        </div>;
 }
 
 export default Todo;

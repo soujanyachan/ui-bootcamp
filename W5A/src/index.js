@@ -10,21 +10,21 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import "./index.css";
+import store from "./redux/store";
+import { Provider } from 'react-redux';
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <MultipleTodos/>,
+        element: <Provider store={store}><MultipleTodos/></Provider>,
         errorElement: <p>error 404</p>,
-    },
-    {
-        path: "/todos/:id",
-        element: <Todo />,
-    },
-    {
-        path: "/about",
-        element: <p>about me</p>,
-    },
+        children: [
+            {
+                path: "/todos/:id",
+                element: <Todo/>,
+            }
+        ]
+    }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
