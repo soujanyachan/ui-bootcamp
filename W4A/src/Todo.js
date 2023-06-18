@@ -4,9 +4,11 @@ import {deleteTodo, getTodo, updateTodo} from "./requests";
 import {useEffect, useContext} from 'react';
 import _ from 'lodash';
 import 'remixicon/fonts/remixicon.css'
+import {MultipleTodosContext, SetMultipleTodosContext} from './Context'
 
 function Todo(props) {
-    const multipleTodos = useContext(ThemeContext)
+    const multipleTodos = useContext(MultipleTodosContext)
+    const setMultipleTodos = useContext(SetMultipleTodosContext)
     const params = useParams();
     const id = params.id || props.id;
     const [todo, setTodo] = useState({})
@@ -22,11 +24,11 @@ function Todo(props) {
         updateTodo({todo: {...todo, completed}})
             .then(r => {
                 setTodo({...todo, completed});
-                const index = _.findIndex(props.multipleTodos, (x) => (x._id === todo._id))
-                console.log(props.multipleTodos, index, todo, "index")
-                props.multipleTodos[index].completed = completed;
-                props.setMultipleTodos(props.multipleTodos)
-                props.setShouldDisplayTodos(true);
+                const index = _.findIndex(multipleTodos, (x) => (x._id === todo._id))
+                console.log(multipleTodos, index, todo, "index")
+                multipleTodos[index].completed = completed;
+                setMultipleTodos(multipleTodos)
+                setShouldDisplayTodos(true);
             })
             .catch(e => console.log(e))
     }
@@ -39,9 +41,9 @@ function Todo(props) {
         <i className="ri-delete-bin-7-fill" onClick={() => {
             deleteTodo({todo})
                 .then(r => {
-                    const multipleTodos = _.filter(props.multipleTodos, (x) => {return (x._id !== todo._id)})
-                    props.setMultipleTodos(multipleTodos)
-                    props.setShouldDisplayTodos(true);
+                    const multipleTodosData = _.filter(multipleTodos, (x) => {return (x._id !== todo._id)})
+                    setMultipleTodos(multipleTodosData)
+                    setShouldDisplayTodos(true);
                 })
                 .catch(e => console.log(e))
         }}></i>
