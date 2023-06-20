@@ -43,7 +43,7 @@ function MultipleTodos() {
                     <div>
                     <h1 id="header">Todo List App</h1>
                     <div id="input">
-                        <input onChange={(e) => {
+                        <input id="todo-input" onChange={(e) => {
                             setNewTodo({
                                 "created": new Date(),
                                 "text": e.target.value,
@@ -57,6 +57,7 @@ function MultipleTodos() {
                                 setMultipleTodos([...multipleTodos, createdTodo]);
                                 setNewTodo({});
                             })
+                            document.getElementById("todo-input").value = ''
                         }}>send
                         </button>
                     </div>
