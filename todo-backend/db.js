@@ -7,7 +7,10 @@ const todoSchema = mongoose.Schema({
     },
     "text": String,
     "subtext": String,
-    "completed": Boolean
+    "completed": {
+        type: Boolean,
+        default: false
+    }
 });
 const conn = mongoose.createConnection(config.MONGODB.URL + '/' + config.MONGODB.REPELSET_OPTIONS, {
     useUnifiedTopology: true,
