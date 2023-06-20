@@ -10,6 +10,10 @@ app.use(cors())
 
 const applyHeaders = (res) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', 'http://*.yellowmessenger.com');
+    res.setHeader('Access-Control-Allow-Origin', 'https://*.yellowmessenger.com');
+    res.setHeader('Access-Control-Allow-Origin', 'http://local-staging.botplatform.io');
+    res.setHeader('Access-Control-Allow-Origin', 'https://local-staging.botplatform.io');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     return res;
