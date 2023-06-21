@@ -18,6 +18,7 @@ export const todoSlice = createSlice({
             } else if (!state.lsOnlyTodo && state.lsOnlyCompleted) {
                 state.filteredTodos = state.multipleTodos.filter((todo) => todo.completed);
             } else {
+                // create a new object for the state, and return it so that it's best practice.
                 state.filteredTodos = state.multipleTodos
             }
         },
@@ -34,6 +35,7 @@ export const todoSlice = createSlice({
                 if (state.lsOnlyTodo) {
                     state.filteredTodos.push(todo)
                 }
+                // can make into a function.
                 if (state.lsOnlyTodo && !state.lsOnlyCompleted) {
                     state.filteredTodos = state.multipleTodos.filter((todo) => !todo.completed);
                 } else if (!state.lsOnlyTodo && state.lsOnlyCompleted) {

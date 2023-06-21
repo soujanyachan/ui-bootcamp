@@ -36,6 +36,7 @@ function MultipleTodos() {
             </SelectedTodoIdContext.Provider>
         ))
     }
+    // using a single context => value can be an object.
     return (
         <MultipleTodosContext.Provider value={multipleTodos}>
             <SetMultipleTodosContext.Provider value={setMultipleTodos}>
